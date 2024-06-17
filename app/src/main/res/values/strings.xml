@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Clothy</string>
+    <string name="home_screen">Home</string>
+    <string name="categories_screen">Categories</string>
+    <string name="category_gallery_screen">Gallery</string>
+    <string name="my_camera_screen">Camera</string>
+    <string name="camera_permission_denied">Camera Permission is needed to capture images. </string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="add_new_category">Add New Category</string>
+    <string name="insert_category_name">Insert Category Name</string>
+    <string name="add">Add</string>
+    <string name="brand">Brand</string>
+    <string name="enter_brand">Enter Brand</string>
+    <string name="notes">Notes</string>
+    <string name="enter_notes">Enter Notes</string>
+    <string name="weather_unspecified">Unspecified</string>
+    <string name="weather_hot">Hot</string>
+    <string name="weather_warm">Warm</string>
+    <string name="weather_cold">Cold</string>
+    <string name="formality_unspecified">Unspecified</string>
+    <string name="formality_formal">Formal</string>
+    <string name="formality_casual">Casual</string>
+    <string name="formality_sport">Sport</string>
+    <string name="must_be_between_0_and_characters">Must be between 0 and %1$s characters.</string>
+    <string name="delete_category">Delete Category</string>
+    <string name="delete_selected_items_dialog_text">Are you sure you want to delete selected Items ?</string>
+    <string name="delete_current_category_dialog_text">Are you sure you want to delete current category ?</string>
+    <string name="delete_confirmation">Delete Confirmation</string>
+    <string name="ok">OK</string>
+</resources>
