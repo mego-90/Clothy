@@ -63,15 +63,14 @@ fun CameraScreen( onSaveImageRequest:(tempImageUri: Uri)->Unit, onCancelRequest:
     val lifecycleOwner = LocalLifecycleOwner.current
 
     cameraController.bindToLifecycle(lifecycleOwner)
-    cameraController.cameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA
+    cameraController.cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
 
     previewView.controller = cameraController
 
     val outputFileOptions = ImageCapture
         .OutputFileOptions
-        //.Builder(File( MyApplication.tempFolderPath ,"${SimpleDateFormat(fileNameFormat,Locale.ENGLISH).format( System.currentTimeMillis() ) }.jpg"))
         .Builder(File( MyApplication.savedImagesFolderPath ,
-            SimpleDateFormat(fileNameFormat,Locale.ENGLISH).format( System.currentTimeMillis() )
+            SimpleDateFormat(fileNameFormat,Locale.ENGLISH).format( System.currentTimeMillis() ) + ".png"
         ))
         .build()
 
@@ -135,7 +134,7 @@ fun CameraScreen( onSaveImageRequest:(tempImageUri: Uri)->Unit, onCancelRequest:
                 else
                     cameraController.enableTorch(true)
             }) {
-            var flashIconTint = Color.White;
+            var flashIconTint = Color.White
             if ( cameraController.torchState.value == TorchState.ON)
                 flashIconTint = Color.Yellow
             Icon(imageVector = Icons.Default.FlashOn, contentDescription = "", tint = flashIconTint)

@@ -28,4 +28,8 @@
     <string name="delete_current_category_dialog_text">Are you sure you want to delete current category ?</string>
     <string name="delete_confirmation">Delete Confirmation</string>
     <string name="ok">OK</string>
+    <string name="title_activity_camera">CameraActivity</string>
+    <string name="deletion_not_allowed">Deletion Not Allowed</string>
+    <string name="deletion_not_allowed_message">This category cannot be deleted because it contains items. \nPlease remove all items from this category before attempting to delete it.</string>
+    <string name="share_image">Share image</string>
 </resources>

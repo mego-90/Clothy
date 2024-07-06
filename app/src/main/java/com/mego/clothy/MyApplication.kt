@@ -7,6 +7,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 
+// When change it, Change it also in File Provider Config "file_paths.xml"
 private const val SAVED_IMAGES_FOLDER_PATH_SUFFIX = "/myImages"
 
 const val fileNameFormat = "yyyy-MM-dd-HH-mm-ss-SSS"

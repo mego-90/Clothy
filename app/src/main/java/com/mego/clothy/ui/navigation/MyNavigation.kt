@@ -60,7 +60,7 @@ fun MyNavigation(
                 },
                 onEditImage = {
                     myViewModel.setSelectedCategoryID(it.categoryID)
-                    myViewModel.selectedItemToShow = it
+                    myViewModel.setSelectedItemToShow(it)
                     navController.navigate(MyScreen.MyItemDetails.route)
                 }
 
@@ -74,8 +74,8 @@ fun MyNavigation(
                 actionModeEnabled = actionModeEnabled,
                 onSelectItem = {item ->  myViewModel.selectItemInActionMode(item) },
                 onUnselectItem = {item ->  myViewModel.unselectItemInActionMode(item) },
-                onOpenItem = {
-                    item -> myViewModel.selectedItemToShow=item
+                onOpenItem = { item ->
+                    myViewModel.setSelectedItemToShow(item)
                     navController.navigate(MyScreen.MyItemDetails.route)
                 }
             )
@@ -99,8 +99,10 @@ fun MyNavigation(
             val selectedCategoryID = myViewModel.selectedCategoryStateFlow.collectAsState().value?.id
             ItemDetailsScreen(
                 items = myViewModel.itemsStateFlow.collectAsState().value[selectedCategoryID]?.collectAsState()?.value.orEmpty(),
-                selectedItem = myViewModel.selectedItemToShow,
-                onBackButton = {
+                selectedItem = myViewModel.selectedItemToShow.collectAsState().value,
+                bottomSheetState = bottomSheetState,
+                onChangeShownItem = {item -> myViewModel.setSelectedItemToShow(item) },
+                onBackIconClick = {
                     if (bottomSheetState.currentValue == SheetValue.Expanded ) {
                         coroutineScope.launch {
                             bottomSheetState.partialExpand()

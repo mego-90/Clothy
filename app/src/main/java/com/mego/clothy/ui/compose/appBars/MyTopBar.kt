@@ -1,13 +1,15 @@
 package com.mego.clothy.ui.compose.appBars
 
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.AddAPhoto
 import androidx.compose.material.icons.filled.AddPhotoAlternate
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.DeleteForever
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.PostAdd
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
@@ -40,17 +42,31 @@ fun MyTopBar(
     onOpenCamera:()->Unit,
     onImportImageFromDevice:()->Unit,
     onAddCategory:()->Unit,
-    onDeleteSelectedCategory:()->Unit,
-    onDeleteSelectedItem : ()-> Unit) {
+    onDeleteSelectedCategory:()->Boolean,
+    onDeleteSelectedItem : ()-> Unit,
+    onShareSelectedItem : ()->Unit) {
 
     var showDeleteItemsConfirmationDialog by remember { mutableStateOf(false) }
     var showDeleteCategoryConfirmation by remember { mutableStateOf(false) }
     var showMoreSettingMenu by remember { mutableStateOf(false) }
+    var showDeletionNotAllowedDialog by remember { mutableStateOf(false) }
 
     TopAppBar(
         title = { Text(text = title) },
         actions = {
+            // Action Mode
             if (actionModeEnabled) {
+
+                // Share Selected Items
+                IconButton(
+                    onClick = {
+                        onShareSelectedItem()
+                    }
+                ) {
+                    Icon(imageVector = Icons.Default.Share ,contentDescription ="" )
+                }
+
+                // Delete Selected Items
                 IconButton(
                     onClick = {
                         showDeleteItemsConfirmationDialog = true
@@ -58,7 +74,9 @@ fun MyTopBar(
                 ) {
                     Icon(imageVector = Icons.Default.DeleteForever, contentDescription ="" )
                 }
-            } else { // Not in ActionMode
+            }
+            // Not in ActionMode
+            else {
                 if (currentScreenRoute == MyScreen.CATEGORY_GALLERY.route) {
                     //Camera
                     IconButton(onClick = { onOpenCamera() }) {
@@ -82,7 +100,7 @@ fun MyTopBar(
                             DropdownMenuItem(
                                 text = { Text(text = stringResource(R.string.delete_category)) },
                                 onClick = { showDeleteCategoryConfirmation = true },
-                                trailingIcon = { Icon( imageVector = Icons.Default.DeleteForever, contentDescription = "" ) }
+                                leadingIcon = { Icon( imageVector = Icons.Default.DeleteForever, contentDescription = "" ) }
                             )
                         }
                     }
@@ -96,26 +114,36 @@ fun MyTopBar(
         navigationIcon = {
             if (canNavigateUp)
                 IconButton(onClick = { onNavigateUp() }) {
-                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "")
+                    Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "")
             }
         },
     )
 
-    if (showDeleteCategoryConfirmation)
+    if (showDeleteCategoryConfirmation) {
         DeleteConfirmationDialog(
             dialogText = stringResource(R.string.delete_current_category_dialog_text),
             onCancel = {
                 showDeleteCategoryConfirmation = false
                 showMoreSettingMenu = false
-                       },
+            },
             onConfirm = {
-                onDeleteSelectedCategory()
+                val deleted = onDeleteSelectedCategory()
                 showDeleteCategoryConfirmation = false
                 showMoreSettingMenu = false
-                onNavigateUp()
+
+                if (deleted)
+                    onNavigateUp()
+                else
+                    showDeletionNotAllowedDialog = true
             }
         )
 
+    }
+
+    if (showDeletionNotAllowedDialog)
+        DeleteCategoryIsDisallowed(
+            onDismiss = { showDeletionNotAllowedDialog = false }
+        )
 
     if (showDeleteItemsConfirmationDialog)
         DeleteConfirmationDialog(
@@ -126,7 +154,6 @@ fun MyTopBar(
                 showDeleteItemsConfirmationDialog = false
             }
         )
-
 }
 
 
@@ -145,3 +172,18 @@ fun DeleteConfirmationDialog(
     )
 }
 
+@Composable
+fun DeleteCategoryIsDisallowed( onDismiss:()->Unit ) {
+    AlertDialog(
+        title = { Text(text = stringResource(R.string.deletion_not_allowed))},
+        text = { Text(text = stringResource(R.string.deletion_not_allowed_message)) },
+        icon = { Icon(imageVector = Icons.Default.Info, contentDescription = "", tint = Color.Red)},
+        onDismissRequest = { onDismiss() },
+        confirmButton = {
+            TextButton(
+                onClick = { onDismiss() },
+                content = { Text(text = stringResource(id = R.string.ok)) }
+            )
+        }
+    )
+}

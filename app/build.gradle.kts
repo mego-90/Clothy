@@ -69,12 +69,14 @@ dependencies {
     //implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation ("com.github.bumptech.glide:compose:1.0.0-beta01")
     implementation("androidx.navigation:navigation-compose:2.7.7")
+    implementation(platform("androidx.compose:compose-bom:2023.08.00"))
     //implementation("io.insert-koin:koin-androidx-compose:3.5.3")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation(platform("androidx.compose:compose-bom:2024.02.02"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    androidTestImplementation(platform("androidx.compose:compose-bom:2023.08.00"))
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
@@ -104,6 +106,7 @@ dependencies {
     implementation("androidx.room:room-ktx:$roomVersion")
 
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
+
 }
 
 kapt {
